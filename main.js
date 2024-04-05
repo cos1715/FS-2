@@ -1,102 +1,123 @@
-fetch("https://open.er-api.com/v6/latest/USD")
-  .then((res) => {
-    debugger;
-    return res.json();
-  })
-  .then((data) => {
-    const inputCurrency = prompt("Enter input Currency").toUpperCase();
-    const outputCurrency = prompt("Enter output Currency").toUpperCase();
-    const amount = +prompt("Enter amount");
-    const { rates } = data;
-    const inputRate = rates[inputCurrency];
-    const outputRate = rates[outputCurrency];
-    if (inputRate && outputRate && !isNaN(amount)) {
-      const result = (amount * inputRate) / outputRate;
-      console.log("🚀 ~ .then ~ result==>>", result.toFixed(2));
-    } else {
-      console.log("Please enter correct data");
-    }
-  });
+const div = document.getElementById("div");
+console.dir(div);
+const main = document.querySelector("main");
+const button = main.querySelector("button");
+console.log("🚀 ~ button==>>", button);
 
-const timerId = setTimeout(() => {
-  console.log("timeout");
-}, 1000);
-// clearTimeout(timerId);
+const buttonList = document.querySelectorAll("button");
 
-let counter = 0;
-const intervalId = setInterval(() => {
-  console.log("interval");
-  counter++;
-  if (counter > 5) {
-    clearInterval(intervalId);
-  }
-}, 2000);
-
-const num1 = 1;
-
-console.log(countNumbers(num1, 5 + 5, 2));
-
-const func = function (num1 = 2, num2 = 2) {
-  return num1 * num2;
-};
-console.log(func());
-
-function countNumbers(param1, param2, param3 = 0, param4 = 0) {
-  const num = 2;
-  return num + param1 + param2 + param3 + param4;
+for (const el of buttonList) {
+  console.dir(el);
 }
 
-const foo = (arg1, arg2) => {
-  return arg1 ** arg2;
-};
-console.log(foo(2, 3));
-
-const printName = ({ firstName = "", lastName = "" } = {}) => {
-  return `${firstName} ${lastName}`;
-};
-
-console.log(printName({ firstName: "Taras" }));
-
-const arr = [1, 2, 3];
-
-const callBack = (item) => {
-  return item % 2 !== 0;
+const htmlCollection = document.getElementsByTagName("button");
+const createButton = () => {
+  const newButton = document.createElement("button");
+  const text = document.createTextNode("Click!!!");
+  newButton.append(text);
+  document.body.prepend(newButton);
 };
 
-const odd = arr.filter(callBack);
-console.log("🚀 ~ odd==>>", odd);
+const addColor = () => {
+  const text = document.getElementById("text");
+  text.classList.add("green");
+};
 
-const filter = (callBack) => {
-  const filteredArr = [];
-  for (const item of arr) {
-    const result = callBack(item);
-    if (result) {
-      filteredArr.push(item);
+const ul = document.createElement("ul");
+main.append(ul);
+const liFirst = document.createElement("li");
+const liLast = document.createElement("li");
+const pFirst = document.createElement("p");
+const pLast = document.createElement("p");
+liFirst.innerText = "First";
+liLast.innerText = "Last";
+pFirst.innerText = "P First";
+pLast.innerText = "P Last";
+ul.append(liLast);
+ul.prepend(liFirst);
+ul.before(pFirst);
+ul.after(pLast);
+ul.before(pLast);
+const cloneDiv = div.cloneNode();
+cloneDiv.id = "clone-div";
+document.body.append(cloneDiv);
+
+const cloneUl = ul.cloneNode(true);
+document.body.append(cloneUl);
+
+// div.replaceWith(cloneUl);
+
+const clearCloneDiv = () => {
+  cloneDiv.remove();
+};
+
+const reloadBtn = document.querySelector(".hidden");
+button.addEventListener("click", () => {
+  reloadBtn.classList.toggle("hidden");
+});
+
+const input = document.getElementById("input");
+input.addEventListener("keydown", () => {
+  console.log("keydown event");
+});
+input.addEventListener("keyup", () => {
+  console.log("keyup event");
+});
+input.addEventListener("keypress", (event) => {
+  console.log("keypress event", event.target.value);
+});
+input.addEventListener("focus", () => {
+  console.log("focus");
+});
+input.addEventListener("blur", () => {
+  console.log("blur");
+});
+
+const cells = [
+  [1, 2],
+  [3, 4],
+];
+const table = document.createElement("table");
+table.style.border = "1px solid black";
+
+cells.forEach((item) => {
+  const tr = document.createElement("tr");
+  item.forEach((cell) => {
+    const td = document.createElement("td");
+    td.innerText = cell;
+    td.style.border = "1px solid black";
+    tr.append(td);
+  });
+  table.append(tr);
+});
+
+main.append(table);
+table.addEventListener("click", (e) => {
+  console.log("🚀 ~ table.addEventListener ~ e==>>", e);
+  if (e.target.nodeName === "TD") {
+    alert(e.target.innerText);
+  }
+});
+
+const arr = [
+  { name: "John", age: 25 },
+  { name: "Pete", age: 30 },
+  { name: "Mary", age: 29 },
+  { name: "Taras", age: 25 },
+  { name: "Kate", age: 74 },
+  { name: "Chris", age: 14 },
+  { name: "Alan", age: 5 },
+  { name: "Boris", age: 55 },
+  { name: "Elizabeth", age: 48 },
+];
+
+const averageAge = (arr) => {
+  const sum = arr.reduce((acc, item) => {
+    if (item.age > 17 && item.age < 55) {
+      return acc + item.age;
     }
-  }
-  return filteredArr;
+    return acc;
+  }, 0);
 };
-
-console.log(filter(callBack));
-
-const a = +prompt("a");
-const b = +prompt("b");
-const c = +prompt("c");
-
-const calculate = ({ a = 1, b = 1, c = 1 }) => {
-  const d = b * b - 4 * a * c;
-  const roots = { x1, x2 };
-  if (d >= 0) {
-    roots.x1 = (-b + Math.sqrt(d)) / (2 * a);
-    roots.x2 = (-b - Math.sqrt(d)) / (2 * a);
-  }
-
-  return { x1, x2 };
-};
-
-const roots = calculate({ a, b, c });
-console.log("🚀 ~ roots==>>", roots);
-
-const rest = (...rest) => {
-  console.log("🚀 ~ rest ~ rest==>>", rest);
-};
+averageAge(arr);
+// 31.4

@@ -1,0 +1,11 @@
+.green {
+  color: green;
+}
+
+.hidden {
+  opacity: 0;
+  /* display: none; */
+}
+.btn {
+  transition: all 0.3s ease-in-out;
+}
