@@ -96,18 +96,111 @@ let a = 10;
 //     alert("no size");
 // }
 
-const color = prompt("Введіть колір", "");
+// const color = prompt("Введіть колір", "");
 
-if (color) {
-  if (color === "red" || color === "black") {
-    document.write("<div style='background-color: red;'>червоний</div>");
-    document.write(
-      "<div style='background-color: black; color: white;'>чорний</div>"
-    );
-  } else if (color === "blue" || color === "green") {
-    document.write("<div style='background-color: blue;'>синій</div>");
-    document.write("<div style='background-color: green;'>зелений</div>");
-  } else {
-    document.write("<div style='background-color: gray;'>Я не зрозумів</div>");
+// if (color) {
+//   if (color === "red" || color === "black") {
+//     document.write("<div style='background-color: red;'>червоний</div>");
+//     document.write(
+//       "<div style='background-color: black; color: white;'>чорний</div>"
+//     );
+//   } else if (color === "blue" || color === "green") {
+//     document.write("<div style='background-color: blue;'>синій</div>");
+//     document.write("<div style='background-color: green;'>зелений</div>");
+//   } else {
+//     document.write("<div style='background-color: gray;'>Я не зрозумів</div>");
+//   }
+// }
+
+// closure calc
+fetch("https://open.er-api.com/v6/latest/USD")
+  .then((res) => res.json())
+  .then((data) => {
+    const container = document.getElementById("btn-container");
+    const { rates } = data;
+
+    for (const cur in rates) {
+      const btn = document.createElement("button");
+      btn.innerText = cur;
+
+      container.append(btn);
+
+      btn.addEventListener("click", () => {
+        const amount = +prompt("Enter number");
+        const result = amount / rates[cur];
+
+        console.log("cur =>", result.toFixed(2));
+      });
+    }
+    console.log(data);
+  });
+
+const fillSelect = (rates, fromSelect, toSelect) => {
+  for (const cur in rates) {
+    const option = document.createElement("option");
+    option.innerText = cur;
+    option.value = cur;
+    const optionClone = option.cloneNode(true);
+
+    fromSelect.append(option);
+    toSelect.append(optionClone);
   }
-}
+};
+
+// closure calc2
+fetch("https://open.er-api.com/v6/latest/USD")
+  .then((res) => res.json())
+  .then((data) => {
+    const { rates } = data;
+    const fromSelect = document.getElementById("from");
+    const toSelect = document.getElementById("to");
+    const input = document.getElementById("amount");
+    const resultDiv = document.getElementById("result");
+    const rateDiv = document.getElementById("rate");
+
+    fillSelect(rates, fromSelect, toSelect);
+
+    const convertCur = (e) => {
+      const fromCur = fromSelect.value;
+      const toCur = toSelect.value;
+      const amount = +input.value;
+      const exRate = rates[toCur] / rates[fromCur];
+      const result = amount * exRate;
+      resultDiv.innerText = result.toFixed(2);
+      rateDiv.innerText = rates[toCur].toFixed(2);
+    };
+
+    fromSelect.addEventListener("change", convertCur);
+    toSelect.addEventListener("change", convertCur);
+    input.addEventListener("input", convertCur);
+  });
+
+const createOptions = (data, parent) => {
+  for (const country of data) {
+    const option = document.createElement("option");
+    option.innerText = country;
+    option.value = country;
+    parent.append(option);
+  }
+};
+
+fetch(
+  "https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/master/countries.min.json"
+)
+  .then((res) => res.json())
+  .then((data) => {
+    const container = document.getElementById("country-container");
+    const countrySelect = document.createElement("select");
+    const citySelect = document.createElement("select");
+    container.append(countrySelect);
+    container.append(citySelect);
+
+    createOptions(Object.keys(data), countrySelect);
+    createOptions(data["Afghanistan"], citySelect);
+
+    countrySelect.addEventListener("change", (e) => {
+      const value = e.target.value;
+      citySelect.innerText = "";
+      createOptions(data[value], citySelect);
+    });
+  });
