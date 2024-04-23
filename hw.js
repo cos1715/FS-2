@@ -31,7 +31,7 @@ const createPersonClosure = (name, surname) => {
   let fatherName;
   let age;
 
-  function checkText(char) {
+  function checkText(char = "") {
     return !!char.match(/[A-ZА-Я]/);
   }
 
@@ -48,7 +48,7 @@ const createPersonClosure = (name, surname) => {
     return age;
   }
   function getFullName() {
-    return `${surname} ${name} ${fatherName}`;
+    return `${surname || ""} ${name || ""} ${fatherName || ""}`;
   }
   function setName(newName) {
     if (checkText(newName[0])) {
@@ -70,12 +70,13 @@ const createPersonClosure = (name, surname) => {
   }
   function setAge(newAge) {
     if (newAge >= 0 && newAge <= 100) {
-      age = age;
+      age = newAge;
     }
     return age;
   }
   function setFullName(newFullName) {
-    const [newSurname, newName, newFatherName] = newFullName.split(" ");
+    const [newSurname = "", newName = "", newFatherName = ""] =
+      newFullName.split(" ");
 
     if (checkText(newSurname[0])) {
       surname = newSurname;
@@ -112,3 +113,44 @@ a.setAge(150); //не працює
 
 b.setFullName("Петрова Ганна Миколаївна");
 console.log(b.getFatherName()); //Миколаївна
+
+const getSetForm = (element, obj) => {
+  const inputs = {};
+
+  const updateValues = () => {
+    for (const key in inputs) {
+      const value = obj[`get${key}`]();
+      inputs[key].value = value ?? "";
+    }
+  };
+
+  for (const key in obj) {
+    const prop = key.slice(3);
+
+    if (!inputs[prop]) {
+      const input = document.createElement("input");
+      input.placeholder = prop;
+      input.name = prop;
+      input.disabled = !obj[`set${prop}`];
+
+      const value = obj[`get${prop}`]();
+      input.value = value ?? "";
+
+      const type = typeof value === "number" ? "number" : "text";
+      input.type = type;
+
+      inputs[prop] = input;
+      element.append(input);
+
+      input.addEventListener("input", (e) => {
+        const value = e.target.value;
+        const newValue = type === "number" ? +value : value;
+        obj[`set${prop}`](newValue);
+        updateValues();
+      });
+    }
+  }
+  console.log("🚀 ~ getSetForm ~ inputs==>>", inputs);
+};
+
+getSetForm(document.body, a);
