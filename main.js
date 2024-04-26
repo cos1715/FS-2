@@ -1,147 +1,209 @@
-const map = new Map();
+// const samoVar = setTimeout(() => {
+//   console.log("timeout");
+// }, 0);
+// // clearTimeout(samoVar);
+// console.log("🚀 ~ samoVar==>>", samoVar);
 
-map.set("test", { a: 1 });
-console.log("🚀 ~ map==>>", map);
-console.log("🚀 ~ map.get()==>>", map.get("test"));
-map.has("test");
-map.set({ a: 1 }, "asd");
-map.delete("test");
-map.size;
-map.clear();
+// let i = 0;
+// const intervalId = setInterval(() => {
+//   if (i === 5) {
+//     clearInterval(intervalId);
+//   }
+//   i++;
+//   console.log(i);
+// }, 1000);
 
-const set = new Set([1, 2, 2, 2, 3, 4, 5, "", "", "aaa"]);
+// const element = document.getElementById("time");
 
-set.add({ a: 1 });
-// everything else is the same
+// // const timeId = setInterval(() => {
+// //   const date = new Date();
+// //   const hours = `${date.getHours()}`.padStart(2, "0");
+// //   const minutes = `${date.getMinutes()}`.padStart(2, "0");
+// //   const seconds = `${date.getSeconds()}`.padStart(2, "0");
 
-const foo = () => {
-  const set = {};
-};
+// //   if (minutes === "25") {
+// //     clearInterval(timeId);
+// //   }
 
-foo();
+// //   element.innerText = `${hours}:${minutes}:${seconds}`;
+// // }, 1000);
 
-const firstName = "A";
-const lastName = "B";
+// // setTimeout / setInterval === macro task
+// // promise === micro task
 
-function bazz() {
-  function bar() {
-    return firstName + " " + lastName;
-  }
-  console.log(bar());
-}
+// // const promise = new Promise((resolve, reject) => {
+// //   setTimeout(() => {
+// //     resolve(2);
+// //   }, 1000);
+// //   console.log("pending");
+// //   // reject("because");
+// // });
 
-bazz();
+// // promise
+// //   .then(
+// //     (data) => {
+// //       console.log("🚀 ~ promise.then ~ data==>>", data);
 
-const makeCounter = () => {
-  let count = 0;
+// //       return 2 + 2;
+// //     },
+// //     (err) => {
+// //       console.log("🚀 ~ err==>>", err);
+// //     }
+// //   )
+// //   .finally(() => {
+// //     console.log("finally 1");
+// //   })
+// //   .catch((err) => {
+// //     console.log("🚀 ~ catch err==>>", err);
+// //     throw "new error";
+// //     // return "dfdsfsdfsdfs";
+// //   })
+// //   .finally(() => {
+// //     console.log("finally 2");
+// //   })
+// //   .then((res) => {
+// //     console.log("🚀 ~ .then ~ res==>>", res);
+// //     return new Promise((resolve, reject) => {
+// //       reject("inner errors");
+// //     });
+// //   })
+// //   .catch((err) => {
+// //     console.log("err", err);
+// //   })
+// //   .catch((err2) => {
+// //     console.log("🚀 ~ .catch ~ err2==>>", err2);
+// //     return 2;
+// //   });
 
-  return () => {
-    return ++count;
-  };
-};
+// // console.log("🚀 ~ promise ~ promise==>>", promise);
 
-const counter = makeCounter();
-const counter2 = makeCounter();
+// new Promise((resolve, reject) => {
+//   reject(1);
+// })
+//   .catch((data) => {
+//     console.log("catch rejected", data);
+//     throw new Error("Error");
+//   })
+//   .then(
+//     () => {},
+//     (data) => {
+//       console.log("then rejected", data);
+//       throw new Error("Error then");
+//     }
+//   )
+//   .catch((error) => {
+//     console.log("catch", error);
+//     return error;
+//   })
+//   .then(() => {
+//     console.log("then", 1);
+//     return 1;
+//   })
+//   .catch(() => {
+//     console.log("catch between 2 thens");
+//   })
+//   .then(() => {
+//     console.log("then error");
+//     throw "then error";
+//   })
+//   .finally(() => {
+//     console.log("finally");
+//   })
+//   .catch((error) => {
+//     console.log("🚀 ~ error==>>", error);
+//   });
 
-counter();
-counter();
-console.log(counter());
+// new Promise((resolve, reject) => {
+//   reject("rejected");
+// })
+//   .then((data) => {
+//     console.log(data, "then");
+//     return data + "Hello";
+//   })
+//   .then((data) => {
+//     console.log(data, "then 2");
+//     return data + " World";
+//   })
+//   .catch((error) => {
+//     console.log("🚀 ~ error==>>", error);
+//   })
+//   .finally(() => {
+//     console.log("🚀 ~ finally==>>");
+//   });
 
-console.log(counter2());
+// Promise.resolve("resolved");
+// Promise.reject("reject");
 
-let clocker = (params) => {
-  let name = [...params];
+// const promiseAll = Promise.all([
+//   Promise.resolve("resolved"),
+//   Promise.reject("resolved"),
+//   Promise.resolve("resolved"),
+// ]);
+// console.log("🚀 ~ promiseAll==>>", promiseAll);
 
-  return function innerFunc(arg) {
-    name.push(arg);
-    return name;
-  };
-};
+// const promiseAllSettled = Promise.allSettled([
+//   Promise.resolve("resolved"),
+//   Promise.reject("resolved"),
+//   Promise.resolve("resolved"),
+// ]).then((data) => {
+//   console.log("🚀 ~ ]).then ~ data==>>", data);
+// });
+// console.log("🚀 ~ promiseAllSettled==>>", promiseAllSettled);
 
-const clock = clocker(["A", "B", "C"]);
-clocker = null;
+// const race = Promise.race([
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       reject("1s");
+//     }, 1000);
+//   }),
+//   new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve("2s");
+//     }, 2000);
+//   }),
+//   new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve("3s");
+//     }, 3000);
+//   }),
+// ]);
+// console.log("🚀 ~ race==>>", race);
 
-clock("Taras");
+// const any = Promise.any([
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       reject("1s");
+//     }, 1000);
+//   }),
+//   new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve("2s");
+//     }, 2000);
+//   }),
+//   new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve("3s");
+//     }, 3000);
+//   }),
+// ]);
+// console.log("🚀 ~ any==>>", any);
 
-let fun = null;
-{
-  const name = "taras";
-  fun = () => {
-    return `Hello ${name}`;
-  };
-}
+fetch("https://dummyjson.com/products")
+  .then((res) => {
+    console.log("🚀 ~ fetch ~ res==>>", res);
+    return res.json();
+  })
+  .then((data) => {
+    console.log("🚀 ~ fetch ~ data==>>", data);
+  });
 
-fun();
-
-const closure = () => {
-  let num = 0;
-  return (n) => (num += n);
-};
-
-const plus = closure();
-plus(5);
-
-const sum = (a) => {
-  return (b) => {
-    return a + b;
-  };
-};
-
-const result = sum(5)(2);
-
-const onClick = (id) => (e) => {
-  console.log(id, e);
-};
-
-document.body.addEventListener("click", onClick("id"));
-
-const decorator = (func) => {
-  return (arg) => {
-    const value = func(arg);
-    return `Hello ${value}`;
-  };
-};
-
-const toUpper = (name) => name.toUpperCase();
-decorator(toUpper)("taras");
-
-const obj = {
-  a: 1,
-  method() {
-    return this.a + 1;
-  },
-};
-
-obj.method();
-const copy = obj.method;
-copy();
-
-function methodDecorator(func) {
-  const value = "sum is:";
-  return function () {
-    const result = func.call(this);
-    return value + " " + result;
-  };
-}
-
-const add = methodDecorator(obj.method);
-
-obj.method = add;
-console.log(obj.method());
-
-for (var i = 1; i <= 5; i++) {
-  const logFunc = (j) => () => {
-    console.log(j);
-  };
-  setTimeout(logFunc(i), i * 1000);
-}
-
-const recursion = (to) => {
-  console.log("recursion", to);
-  if (to === 1) {
-    return to;
-  }
-  return recursion(to - 1);
-};
-
-recursion(5);
+fetch("https://dummyjson.com/products/1", {
+  method: "PUT" /* or PATCH */,
+  headers: { "Content-Type": "application/json", "xxx-my-header": "my header" },
+  body: JSON.stringify({
+    price: 20,
+    title: "iPhone Galaxy +1",
+  }),
+})
+  .then((res) => res.json())
+  .then(console.log);
