@@ -188,22 +188,160 @@
 // ]);
 // console.log("🚀 ~ any==>>", any);
 
-fetch("https://dummyjson.com/products")
-  .then((res) => {
-    console.log("🚀 ~ fetch ~ res==>>", res);
-    return res.json();
-  })
+// fetch("https://dummyjson.com/products")
+//   .then((res) => {
+//     console.log("🚀 ~ fetch ~ res==>>", res);
+//     return res.json();
+//   })
+//   .then((data) => {
+//     console.log("🚀 ~ fetch ~ data==>>", data);
+//   });
+
+// fetch("https://dummyjson.com/products/1", {
+//   method: "PUT" /* or PATCH */,
+//   headers: { "Content-Type": "application/json", "xxx-my-header": "my header" },
+//   body: JSON.stringify({
+//     price: 20,
+//     title: "iPhone Galaxy +1",
+//   }),
+// })
+//   .then((res) => res.json())
+//   .then(console.log);
+
+const db = [
+  { name: "Taras", id: 1 },
+  { name: "Ihor", id: 2 },
+  { name: "Maksym", id: 3 },
+];
+
+const foo = () => {
+  console.log("123");
+};
+
+foo();
+
+setTimeout(() => {});
+
+const getUser = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = db.find((item) => item.id === id);
+      if (user) {
+        resolve(user);
+      } else {
+        reject("404 not found");
+      }
+    }, 1000);
+  });
+};
+
+const getUserAsync = async (id) => {
+  try {
+    const result = await getUser(id);
+    console.log("🚀 ~ result.then ~ res==>>", res);
+  } catch (err) {
+    console.log("🚀 ~ result.catch ~ err==>>", err);
+  }
+};
+
+getUserAsync(11);
+
+// const immutabilityFunc = (arr) => {
+//   const copy = arr.slice(0);
+//   copy.push({});
+//   return copy;
+// };
+
+// immutabilityFunc(db);
+
+// const sum = (a, b) => a + b;
+
+// const fetchUsers = () => {
+//   fetch("https://users");
+// };
+
+const getPosts = async () => {
+  const promise = await Promise.allSettled([
+    fetch("https://dummyjson.com/posts/1"),
+    fetch("https://dummyjson.com/posts/2"),
+    fetch("https://dummyjson.com/posts/1324234234"),
+    fetch("https://dummyjson.com/posts/3"),
+  ]);
+  const settledPromises = promise.filter((item) => item.value.ok);
+  const jsonElements = settledPromises.map((item) => item.value.json());
+  const posts = await Promise.all(jsonElements);
+
+  posts.forEach((element) => {
+    const container = document.createElement("div");
+    const title = document.createElement("h1");
+    const content = document.createElement("p");
+
+    title.innerText = element.title;
+    content.innerText = element.body;
+
+    container.append(title, content);
+    document.body.append(container);
+  });
+};
+getPosts();
+
+// const promise = Promise.allSettled([
+//   fetch("https://dummyjson.com/posts/1"),
+//   fetch("https://dummyjson.com/posts/2"),
+//   fetch("https://dummyjson.com/posts/1324234234"),
+//   fetch("https://dummyjson.com/posts/3"),
+// ])
+//   .then((res) => {
+//     const settledPromises = res.filter((item) => item.value.ok);
+//     const jsonElements = settledPromises.map((item) => item.value.json());
+//     return Promise.all(jsonElements);
+//   })
+//   .then((posts) => {
+//     posts.forEach((element) => {
+//       const container = document.createElement("div");
+//       const title = document.createElement("h1");
+//       const content = document.createElement("p");
+
+//       title.innerText = element.title;
+//       content.innerText = element.body;
+
+//       container.append(title, content);
+
+//       document.body.append(container);
+//     });
+//   });
+
+const resolvePromise = async () => {
+  console.log("before promise");
+
+  try {
+    const promise = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // reject("No");
+        resolve("Yes");
+      }, 1000);
+    });
+
+    console.log("after promise", promise);
+    // return promise;
+  } catch (err) {
+    console.log("🚀 ~ resolvePromise ~ err==>>", err);
+  }
+  throw "throw";
+};
+
+resolvePromise()
   .then((data) => {
-    console.log("🚀 ~ fetch ~ data==>>", data);
+    console.log(data);
+  })
+  .catch((err) => {
+    console.log("🚀 ~async catch err==>>", err);
   });
 
-fetch("https://dummyjson.com/products/1", {
-  method: "PUT" /* or PATCH */,
-  headers: { "Content-Type": "application/json", "xxx-my-header": "my header" },
-  body: JSON.stringify({
-    price: 20,
-    title: "iPhone Galaxy +1",
-  }),
-})
-  .then((res) => res.json())
-  .then(console.log);
+const fetchUser = async (id) => {
+  const res = await fetch(`https://dummyjson.com/users/${id}`);
+  const data = await res.json();
+  console.log("🚀 ~ fetchUser ~ data==>>", data);
+};
+
+fetchUser(1);
