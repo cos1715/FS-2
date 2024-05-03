@@ -88,6 +88,7 @@ setTimeout(() => {
   console.log(3);
 }, 0);
 
+// 1 9 8 8 8 2 3 4 6 7 4 6 7 4 6 7 5 5 5
 const promise = Promise.resolve();
 for (let i = 0; i < 3; i++) {
   promise
@@ -111,4 +112,38 @@ for (let i = 0; i < 3; i++) {
 }
 console.log(9);
 
-// 1 9 8 2 3 4 6 7 5
+// const getData = async (url) => {
+//   const res = await fetch(url);
+//   return res.json();
+// };
+
+// const swapiLinks = async (url) => {
+//   const data = await getData(url);
+//   const keys = Object.keys(data);
+
+//   await keys.forEach(async (key) => {
+//     const value = data[key];
+//     if (typeof value === "string" && value.includes("api")) {
+//       data[key] = await getData(value);
+//     }
+//     if (Array.isArray(value)) {
+//       const arr = value.map(async (item) => {
+//         if (typeof item === "string" && item.includes("api")) {
+//           return getData(item);
+//         } else {
+//           return item;
+//         }
+//       });
+//       data[key] = await Promise.all(arr);
+//     }
+//   });
+
+//   return data;
+// };
+
+// const getLinks = async () => {
+//   const yodaWithLinks = await swapiLinks("https://swapi.dev/api/people/20/");
+//   console.log(JSON.stringify(yodaWithLinks, null, 4));
+// };
+
+// getLinks();
