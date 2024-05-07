@@ -151,3 +151,26 @@ console.log("🚀 ~ rectangular==>>", rectangular);
 
 const circle = new Circle("red", 4);
 console.log("🚀 ~ circle==>>", circle);
+
+function ConstructorFunc() {
+  // const this = {}
+  this.arrow = () => {
+    return this;
+  };
+  this.func = function () {
+    return this;
+  };
+  // return this
+}
+const entity = new ConstructorFunc();
+console.log("🚀 ~ entity==>>", entity);
+// const arrow = entity.arrow;
+// console.log(arrow());
+
+// const func = entity.func;
+// console.log(func());
+
+function Car(brand) {
+  this.brand = brand;
+}
+const car = new Car("BMW");
