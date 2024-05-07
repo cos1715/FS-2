@@ -14,6 +14,11 @@ const dog = {
 };
 console.log("🚀 ~ dog==>>", dog);
 
+console.log(Object.keys(dog));
+for (let key in dog) {
+  console.log("🚀 ~ key==>>", key);
+}
+
 const cat = Object.create(animal, {
   nightVision: {
     value: "Yes",
